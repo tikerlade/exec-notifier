@@ -1,0 +1,1 @@
+web: gunicorn publisher:app --log-file -
