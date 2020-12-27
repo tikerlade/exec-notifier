@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "exec-notifier"
-version = "0.1.8"
+version = "0.1.9"
 description = "Tool to notify you when command will be executed."
 authors = ["Ivan Kuznetsov <tikerlade@gmail.com>"]
 readme = "README.md"
