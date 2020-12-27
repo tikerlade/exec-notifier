@@ -34,4 +34,4 @@ repos:
     rev: stable
     hooks:
     - id: black
-      language: system
+      language_version: python3.8
