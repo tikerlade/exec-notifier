@@ -23,4 +23,6 @@ jobs:
           poetry config http-basic.pypi ${{ secrets.POETRY_HTTP_BASIC_PYPI_USERNAME }} ${{ secrets.POETRY_HTTP_BASIC_PYPI_PASSWORD }}
       - name: Publish package
         working-directory: ./package
-        run: poetry publish --build
+        run: |
+          poetry version patch
+          poetry publish --build
