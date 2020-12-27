@@ -8,8 +8,12 @@ readme = "README.md"
 [tool.poetry.scripts]
 exec_notifier = "exec_notifier:main"
 
+[tool.poetry-dynamic-versioning]
+enable = true
+
 [tool.poetry.dependencies]
 python = "^3.8"
+poetry-dynamic-versioning = "0.12.0"
 
 [tool.poetry.dev-dependencies]
 

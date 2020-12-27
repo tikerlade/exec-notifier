@@ -3,3 +3,4 @@ flake8==3.8.4
 mypy==0.790
 pycodestyle==2.6.0
 toml==0.10.2
+poetry-dynamic-versioning==0.12.0
