@@ -20,7 +20,17 @@ In execution of your application you will need your Telegram ID. To get it visit
 
 If you wnat to run commands with `&&`, `||`, `;`, `|`, `>` in your terminal please use backslash character \ before each of such symbols.
 
-**Example**
+Another way is to put your command in quotes `""`.
+
+**Example using quotes**
+
+```shell
+>>> exec_notifier notify "ls -l | head"
+>>> exec_notifier notify "ls -l > output.txt"
+>>> exec_notifier notify "ls -l && sleep 3"
+```
+
+**Example using backslash**
 
 ```shell
 >>> exec_notifier notify ls -l \| head
@@ -29,5 +39,5 @@ If you wnat to run commands with `&&`, `||`, `;`, `|`, `>` in your terminal plea
 ```
 
 
-## Future :soon:
+## Future
 * Your own bot supportage will be added
