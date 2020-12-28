@@ -7,11 +7,12 @@ from datetime import datetime
 import requests
 
 POST_URL = "https://notifier-publisher.herokuapp.com/send_message"
+CONFIG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.ini")
 
 
 def send_result(arguments, start_time, end_time, return_code, text):
     config = configparser.ConfigParser()
-    config.read("config.ini")
+    config.read(CONFIG_FILE)
 
     chat_id = config["telegram"]["telegram_id"]
 
@@ -44,17 +45,17 @@ def config(arguments):
     config = configparser.ConfigParser()
     config["telegram"] = {"telegram_id": arguments.telegram_id}
 
-    with open("config.ini", "w") as fout:
+    with open(CONFIG_FILE, "w") as fout:
         config.write(fout)
 
 
 def check_config():
     config = configparser.ConfigParser()
 
-    if not os.path.isfile("config.ini"):
+    if not os.path.isfile(CONFIG_FILE):
         return False
 
-    config.read("config.ini")
+    config.read(CONFIG_FILE)
 
     if "telegram" not in config:
         return False
