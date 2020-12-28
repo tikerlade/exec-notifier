@@ -3,6 +3,8 @@ name = "exec-notifier"
 version = "0.1.10"
 description = "Tool to notify you when command will be executed."
 authors = ["Ivan Kuznetsov <tikerlade@gmail.com>"]
+repository = "https://github.com/tikerlade/exec-notifier"
+homepage = "https://github.com/tikerlade/exec-notifier"
 readme = "README.md"
 
 [tool.poetry.scripts]

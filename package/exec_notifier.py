@@ -26,22 +26,18 @@ def send_result(arguments, start_time, end_time, return_code, text):
 
 
 def notify(arguments):
-    return_code = 0
 
     start_time = datetime.today()
-    try:
-        result = subprocess.check_output(arguments, stderr=subprocess.STDOUT)
-        text = result.decode("utf-8")
+    result = subprocess.run(arguments, shell=True, capture_output=True)
+    end_time = datetime.today()
 
-        end_time = datetime.today()
-        send_result(arguments, start_time, end_time, return_code, text)
+    return_code = result.returncode
+    if return_code == 0:
+        text = result.stdout.decode("utf-8")
+    else:
+        text = result.stderr.decode("utf-8")
 
-    except subprocess.CalledProcessError as error:
-        return_code = error.returncode
-        text = error.stdout.decode("utf-8")
-
-        end_time = datetime.today()
-        send_result(arguments, start_time, end_time, return_code, text)
+    send_result(arguments, start_time, end_time, return_code, text)
 
 
 def config(arguments):
