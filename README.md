@@ -16,5 +16,18 @@ In execution of your application you will need your Telegram ID. To get it visit
 >>> exec_notifier notify [your_command_here]
 ```
 
+## Limitation :warning:
+
+If you wnat to run commands with `&&`, `||`, `;`, `|`, `>` in your terminal please use backslash character \ before each of such symbols.
+
+**Example**
+
+```shell
+>>> exec_notifier notify ls -l \| head
+>>> exec_notifier notify ls -l \> output.txt
+>>> exec_notifier notify ls -l \&\& sleep 3
+```
+
+
 ## Future :soon:
 * Your own bot supportage will be added
