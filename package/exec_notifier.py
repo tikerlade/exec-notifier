@@ -29,7 +29,7 @@ def send_result(arguments, start_time, end_time, return_code, text):
 
     files = {"log.txt": open("log.txt", "rb")}
 
-    requests.post(POST_URL, json=data, files=files)
+    requests.post(POST_URL, data=data, files=files)
 
 
 def notify(arguments):
