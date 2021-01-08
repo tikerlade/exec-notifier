@@ -12,14 +12,11 @@ bot = Bot(TELEGRAM_TOKEN)
 @app.route("/send_message", methods=["POST"])
 def send_message():
     data = request.form
-    file = request.files
-    print(data)
 
     chat_id = data["chat_id"]
     text_information = data["text"]
-    file = file["log.txt"]
 
     bot.send_message(chat_id=chat_id, text=text_information, parse_mode="Markdown")
-    bot.send_document(chat_id=chat_id, document=file)
+    bot.send_document(chat_id=chat_id, document=request.files["log.txt"])
 
     return "Success"

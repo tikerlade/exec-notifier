@@ -22,7 +22,7 @@ def send_result(arguments, start_time, end_time, return_code, text):
     execution_time = end_time - start_time
     message = f"*{title}* \nCommand: `{command}` \nExecution time: `{execution_time}` \n\nLog output will be below."
 
-    data = {"chat_id": chat_id, "text": message, "file_text": text}
+    data = {"chat_id": chat_id, "text": message}
 
     with open("log.txt", "w") as fout:
         fout.write(text)
