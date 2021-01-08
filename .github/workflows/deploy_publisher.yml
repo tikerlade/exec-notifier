@@ -1,4 +1,4 @@
-name: Deploy publisher
+name: Deploy Bot
 
 on:
   push:

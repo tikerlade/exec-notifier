@@ -2,12 +2,13 @@ import argparse
 import configparser
 import os
 import subprocess
+import sys
 from datetime import datetime
 
 import requests
 
 POST_URL = "https://notifier-publisher.herokuapp.com/send_message"
-CONFIG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "config.ini")
+CONFIG_FILE = os.path.join(os.path.dirname(os.path.abspath(__file__)), "../config.ini")
 
 
 def send_result(arguments, start_time, end_time, return_code, text):
@@ -50,13 +51,16 @@ def config(arguments):
 
 
 def check_config():
+    # Initialize config parser
     config = configparser.ConfigParser()
 
+    # Check that config file exists
     if not os.path.isfile(CONFIG_FILE):
         return False
 
     config.read(CONFIG_FILE)
 
+    # Check telegram field in config
     if "telegram" not in config:
         return False
 
@@ -67,10 +71,12 @@ def check_config():
     return True
 
 
-def main():
+def parse_args(args: list):
+    # Initialize parser
     parser = argparse.ArgumentParser()
     subparsers = parser.add_subparsers()
 
+    # Configure parser for config mode
     config_parser = subparsers.add_parser("config")
     config_parser.add_argument(
         "--telegram_id",
@@ -80,17 +86,30 @@ def main():
     )
     config_parser.set_defaults(mode="config")
 
+    # Configure parser for notify mode
     notify_parser = subparsers.add_parser("notify")
     notify_parser.set_defaults(mode="notify")
 
-    known, unknown = parser.parse_known_args()
-    if known.mode == "config":
-        config(known)
-    elif known.mode == "notify":
+    return parser.parse_known_args(args)
+
+
+def run_from_args(known_args, unknown_args):
+    if known_args.mode == "config":
+        config(known_args)
+    elif known_args.mode == "notify":
         if check_config():
-            notify(unknown)
+            notify(unknown_args)
         else:
             raise FileNotFoundError("You have not configured the tool.")
+
+
+def main():
+    # Parse arguments from CLI
+    arguments = parse_args(sys.argv[1:])
+    known, unknown = arguments
+
+    # Run program with given arguments
+    run_from_args(known, unknown)
 
 
 if __name__ == "__main__":

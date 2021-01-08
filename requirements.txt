@@ -4,3 +4,7 @@ mypy==0.790
 pycodestyle==2.6.0
 toml==0.10.2
 poetry-dynamic-versioning==0.12.0
+
+requests~=2.25.1
+Flask~=1.1.2
+emoji~=0.6.0

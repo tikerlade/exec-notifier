@@ -24,5 +24,4 @@ jobs:
       - name: Publish package
         working-directory: ./package
         run: |
-          poetry version patch
           poetry publish --build
