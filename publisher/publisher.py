@@ -11,7 +11,7 @@ bot = Bot(TELEGRAM_TOKEN)
 
 @app.route("/send_message", methods=["POST"])
 def send_message():
-    data = request.json
+    data = request.form
     file = request.files
     print(data)
 
