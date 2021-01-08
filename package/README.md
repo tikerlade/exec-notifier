@@ -9,7 +9,6 @@
 This tool provides you ability to send yourself information about looong executed command when it is done. Information will be sent using Telegram Bot.
 
 ## Prerequisites
-In execution of your application you will need your Telegram ID. To get it visit [@exec_notifier_bot](https://telegram.me/exec_notifier_bot) and use `/start` command.
 
 1. Python 3.4 or higher
 2. Telegram ID - get it from [@exec_notifier_bot](https://telegram.me/exec_notifier_bot) by using `/start` command.

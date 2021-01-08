@@ -24,7 +24,12 @@ def send_result(arguments, start_time, end_time, return_code, text):
 
     data = {"chat_id": chat_id, "text": message, "file_text": text}
 
-    requests.post(POST_URL, json=data)
+    with open("log.txt", "w") as fout:
+        fout.write(text)
+
+    files = {"log.txt": open("log.txt", "rb")}
+
+    requests.post(POST_URL, json=data, files=files)
 
 
 def notify(arguments):
@@ -37,7 +42,7 @@ def notify(arguments):
     if return_code == 0:
         text = result.stdout.decode("utf-8")
     else:
-        text = result.stderr.decode("utf-8")
+        text = result.stderr.decode("utf-8") or result.stdout.decode("utf-8")
 
     send_result(arguments, start_time, end_time, return_code, text)
 

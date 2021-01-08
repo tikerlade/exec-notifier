@@ -12,19 +12,14 @@ bot = Bot(TELEGRAM_TOKEN)
 @app.route("/send_message", methods=["POST"])
 def send_message():
     data = request.json
+    file = request.files
     print(data)
 
     chat_id = data["chat_id"]
     text_information = data["text"]
-    file = data["file_text"]
+    file = file["log.txt"]
 
     bot.send_message(chat_id=chat_id, text=text_information, parse_mode="Markdown")
+    bot.send_document(chat_id=chat_id, document=file)
 
-    with open("log.txt", "w") as fout:
-        fout.write(file)
-
-    with open("log.txt", "rb") as fin:
-        bot.send_document(chat_id=chat_id, document=fin)
-
-    os.remove("log.txt")
     return "Success"
