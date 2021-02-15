@@ -6,7 +6,9 @@
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/tikerlade/exec-notifier/master.svg)](https://results.pre-commit.ci/latest/github/tikerlade/exec-notifier/master)
 ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/exec-notifier)
 
-This tool provides you ability to send yourself information about looong executed command when it is done. Information will be sent using Telegram Bot.
+This tool provides you ability to send yourself information about looong executed command when it is done. Information will be sent using Telegram Bot. Logs and error messages (if they'll occur) will be delivered too.
+
+:warning: If your log will be too long (longer 1_000_000 signs we'll not send it).
 
 ## Prerequisites :bookmark_tabs:
 
