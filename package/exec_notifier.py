@@ -18,16 +18,19 @@ def send_result(arguments, start_time, end_time, return_code, text):
     chat_id = config["telegram"]["telegram_id"]
 
     title = "Success" if return_code == 0 else "Error"
+    files = {}
     command = " ".join(arguments)
     execution_time = end_time - start_time
     message = f"*{title}* \nCommand: `{command}` \nExecution time: `{execution_time}` \n\nLog output will be below."
 
     data = {"chat_id": chat_id, "text": message}
 
-    with open("log.txt", "w") as fout:
-        fout.write(text)
+    # Sending log output if length of message is less than 1_000_001 symbols
+    if len(text) < 1_000_001:
+        with open("log.txt", "w") as fout:
+            fout.write(text)
 
-    files = {"log.txt": open("log.txt", "rb")}
+        files = {"log.txt": open("log.txt", "rb")}
 
     requests.post(POST_URL, data=data, files=files)
 
@@ -35,14 +38,31 @@ def send_result(arguments, start_time, end_time, return_code, text):
 def notify(arguments):
 
     start_time = datetime.today()
-    result = subprocess.run(arguments, shell=True, capture_output=True)
+    text = ""
+
+    # Read output of command execution and print it back to shell
+    result = subprocess.Popen(
+        arguments, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+    )
+    for line in result.stdout:
+        out = line.decode("utf-8")
+        sys.stdout.write(out)
+        text += out
+
     end_time = datetime.today()
 
+    # Check error message
     return_code = result.returncode
-    if return_code == 0:
-        text = result.stdout.decode("utf-8")
-    else:
-        text = result.stderr.decode("utf-8") or result.stdout.decode("utf-8")
+    if return_code != 0:
+        error = result.stderr.readlines()
+        error = " ".join([s.decode("utf-8") for s in error])
+        sys.stdout.write(error)
+
+        # Send error if error+log is too large
+        if len(text) + len(error) < 1_000_001:
+            text += error
+        else:
+            text = error
 
     send_result(arguments, start_time, end_time, return_code, text)
 
