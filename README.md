@@ -33,10 +33,5 @@ You need to run your commands in quotes(`""`) when passing script to run.
 >>> exec_notifier notify "zip Downloads"
 ```
 
-
-## Friendly reminder
-_If output of your log will be too long Bot couldn't handle it_
-
-
 ## Future :soon:
 * Your own bot support will be added
