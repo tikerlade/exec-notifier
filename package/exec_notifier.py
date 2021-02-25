@@ -42,20 +42,23 @@ def notify(arguments):
 
     # Read output of command execution and print it back to shell
     result = subprocess.Popen(
-        arguments, shell=True, stdout=subprocess.PIPE, stderr=subprocess.PIPE
+        arguments,
+        shell=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
+        encoding="utf-8",
     )
     for line in result.stdout:
-        out = line.decode("utf-8")
-        sys.stdout.write(out)
-        text += out
-
+        sys.stdout.write(line)
+        text += line
     end_time = datetime.today()
+    result.wait()
 
     # Check error message
     return_code = result.returncode
     if return_code != 0:
         error = result.stderr.readlines()
-        error = " ".join([s.decode("utf-8") for s in error])
+        error = " ".join(error)
         sys.stdout.write(error)
 
         # Send error if error+log is too large
