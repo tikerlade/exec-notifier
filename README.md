@@ -1,4 +1,5 @@
-# Execution Notifier :speech_balloon:
+<h1> <img align="center" width="64" height="64" src="https://habrastorage.org/webt/x8/jn/ao/x8jnaoprxwqpopluc_oldypk284.png"> Execution Notifier :speech_balloon: </h1>
+
 [![PyPI](https://img.shields.io/pypi/v/exec-notifier)](https://pypi.org/project/exec-notifier/)
 [![Code style: black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![Actions Status](https://github.com/tikerlade/exec-notifier/workflows/Deploy%20Bot/badge.svg)](https://github.com/tikerlade/exec-notifier/actions/)
