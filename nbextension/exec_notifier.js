@@ -17,6 +17,8 @@ define(["require"], function (require) {
   var enabled = false;
   var first_start = true;
   var busy_kernel = true;
+  var cells_list = [];
+  var last_cell = NaN;
 
   var add_permissions_list = function () {
     var ipython_toolbar = $('#maintoolbar-container');
@@ -89,15 +91,31 @@ define(["require"], function (require) {
     }
   };
 
+  function sec2time(timeInSeconds) {
+    var pad = function(num, size) { return ('000' + num).slice(size * -1); },
+    time = parseFloat(timeInSeconds).toFixed(3),
+    hours = Math.floor(time / 60 / 60),
+    minutes = Math.floor(time / 60) % 60,
+    seconds = Math.floor(time - minutes * 60),
+    milliseconds = time.slice(-3);
+
+    return pad(hours, 2) + ':' + pad(minutes, 2) + ':' + pad(seconds, 2) + '.' + pad(milliseconds, 6);
+}
+
   var notify = function () {
     var elapsed_time = current_time() - start_time;
     if (enabled && !first_start && !busy_kernel && elapsed_time >= min_time) {
 
+      var result_time = sec2time(elapsed_time);
+      var file_text = IPython.notebook.get_cell(last_cell).output_area.element[0].innerText.toString()
+      console.log(typeof file_text)
+
       fetch('https://notifier-publisher.herokuapp.com/send_message', {
         method: 'POST',
-        body: JSON.stringify({chat_id: 95158993, text: "*Kernel is now idle*\nNotebook: `" + IPython.notebook.notebook_path + "`\nExecution time: `" + elapsed_time + "`"})
+        body: JSON.stringify({chat_id: 95158993,
+          text: "*Kernel is now idle*\nNotebook: `" + IPython.notebook.notebook_path + "`\nExecution time: `" + result_time + "`",
+          file: file_text})
       });
-
 
       var n = new Notification(IPython.notebook.notebook_name, {body: "Kernel is now idle\n(ran for " + Math.round(elapsed_time) + ")"});
       n.onclick = function(event){ window.focus(); }
@@ -139,17 +157,32 @@ define(["require"], function (require) {
   var setup_notifier = function () {
     $([IPython.events]).on('kernel_starting.Kernel',function () {
       first_start = true;  // reset first_start status when restarting the kernel
+      cells_list = [];
     });
 
-    $([IPython.events]).on('kernel_busy.Kernel',function () {
+
+    $([IPython.events]).on('execute.CodeCell',function (data) {
+      console.log(IPython.notebook.get_selected_index())
+      console.log(data)
+      cells_list.push(IPython.notebook.get_selected_index())
+    });
+
+
+    $([IPython.events]).on('kernel_busy.Kernel',function (data) {
+      // console.log(IPython.notebook.get_selected_index())
+      // console.log(data)
       busy_kernel = true;
       start_time = current_time();  // reset the timer
     });
 
-    $([IPython.events]).on('kernel_idle.Kernel',function () {
+    $([IPython.events]).on('kernel_idle.Kernel',function (data) {
+      // console.log(data)
       busy_kernel = false;  // Used to make sure that kernel doesn't go busy again within the timeout set below.
+      last_cell = cells_list.shift();
       setTimeout(notify, 500);
     });
+
+
   };
 
   var load_ipython_extension = function () {

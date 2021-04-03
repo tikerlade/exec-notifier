@@ -28,10 +28,12 @@ def send_message():
     if request.files:
         bot.send_document(chat_id=chat_id, document=request.files["log.txt"])
     if "file" in data:
-        with open("log.txt", "w") as fout:
-            fout.write(data["file"])
-
-        with open("log.txt", "r") as fin:
-            bot.send_document(chat_id=chat_id, document=fin)
+        bot.send_document(chat_id=chat_id, document=data["file"].encode())
+        #
+        # with open("log.txt", "w") as fout:
+        #     fout.write(data["file"])
+        #
+        # with open("log.txt", "r") as fin:
+        #     bot.send_document(chat_id=chat_id, document=fin)
 
     return "Success"
