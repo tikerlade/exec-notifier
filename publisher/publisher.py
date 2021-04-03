@@ -14,6 +14,7 @@ logging.basicConfig(level=logging.INFO)
 
 @app.route("/send_message", methods=["POST"])
 def send_message():
+    print(request)
     data = request.form
     logging.info(f"Data received {data}")
     print(f"Data received {data}")
