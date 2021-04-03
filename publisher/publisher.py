@@ -1,3 +1,4 @@
+import logging
 import os
 
 from flask import Flask, request
@@ -8,10 +9,13 @@ TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
 app = Flask(__name__)
 bot = Bot(TELEGRAM_TOKEN)
 
+logging.basicConfig(encoding="utf-8", level=logging.INFO)
+
 
 @app.route("/send_message", methods=["POST"])
 def send_message():
     data = request.form
+    logging.info(f"Data received {data}")
 
     chat_id = data["chat_id"]
     text_information = data["text"]
