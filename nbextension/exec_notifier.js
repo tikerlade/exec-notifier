@@ -92,31 +92,13 @@ define(["require"], function (require) {
   var notify = function () {
     var elapsed_time = current_time() - start_time;
     if (enabled && !first_start && !busy_kernel && elapsed_time >= min_time) {
-      // var xhr = new XMLHttpRequest();
-      // xhr.open("POST", "https://notifier-publisher.herokuapp.com/send_message", true);
-      // xhr.setRequestHeader('Content-Type', 'application/json');
-      // xhr.send(JSON.stringify({
-      //     "chat_id": "95158993",
-      //     "text": "Kernel is done",
-      //     "New_field": "144121212"
-      // }));
 
-      let data = {
-  chat_id: 95158993,
-  text: 'Kernel is done.'
-};
+      fetch('https://notifier-publisher.herokuapp.com/send_message', {
+        method: 'POST',
+        body: JSON.stringify({chat_id: 95158993, text: "Kernel is now idle\n(ran for " + Math.round(elapsed_time) + " secs)"})
+      });
 
-      let response = fetch('https://notifier-publisher.herokuapp.com/send_message', {
-      method: 'POST',
-      headers: {
-        'Accept': 'application/json',
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({'data': data})
-        });
-
-
-      var n = new Notification(IPython.notebook.notebook_name, {body: "Kenel is now idle\n(ran for " + Math.round(elapsed_time) + " secs)"});
+      var n = new Notification(IPython.notebook.notebook_name, {body: "Kernel is now idle\n(ran for " + Math.round(elapsed_time) + " secs)"});
       n.onclick = function(event){ window.focus(); }
     }
     if (first_start) {

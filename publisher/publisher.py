@@ -1,3 +1,4 @@
+import json
 import logging
 import os
 
@@ -14,11 +15,11 @@ logging.basicConfig(level=logging.INFO)
 
 @app.route("/send_message", methods=["POST"])
 def send_message():
-    print(request)
-    print(request.data)
-    data = request.form
+    if request.form:
+        data = request.form
+    if request.data:
+        data = json.loads(request.data.decode())
     logging.info(f"Data received {data}")
-    print(f"Data received {data}")
 
     chat_id = data["chat_id"]
     text_information = data["text"]
