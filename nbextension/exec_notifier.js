@@ -95,10 +95,11 @@ define(["require"], function (require) {
 
       fetch('https://notifier-publisher.herokuapp.com/send_message', {
         method: 'POST',
-        body: JSON.stringify({chat_id: 95158993, text: "Kernel is now idle\n(ran for " + Math.round(elapsed_time) + " secs)"})
+        body: JSON.stringify({chat_id: 95158993, text: "*Kernel is now idle*\nNotebook: `" + IPython.notebook.notebook_path + "`\nExecution time: `" + elapsed_time + "`"})
       });
 
-      var n = new Notification(IPython.notebook.notebook_name, {body: "Kernel is now idle\n(ran for " + Math.round(elapsed_time) + " secs)"});
+
+      var n = new Notification(IPython.notebook.notebook_name, {body: "Kernel is now idle\n(ran for " + Math.round(elapsed_time) + ")"});
       n.onclick = function(event){ window.focus(); }
     }
     if (first_start) {

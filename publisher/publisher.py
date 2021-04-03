@@ -27,5 +27,11 @@ def send_message():
     bot.send_message(chat_id=chat_id, text=text_information, parse_mode="Markdown")
     if request.files:
         bot.send_document(chat_id=chat_id, document=request.files["log.txt"])
+    if "file" in data:
+        with open("log.txt", "w") as fout:
+            fout.write(data["file"])
+
+        with open("log.txt", "r") as fin:
+            bot.send_document(chat_id=chat_id, document=fin)
 
     return "Success"
