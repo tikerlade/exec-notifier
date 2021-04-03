@@ -113,7 +113,7 @@ define(["require"], function (require) {
       fetch('https://notifier-publisher.herokuapp.com/send_message', {
         method: 'POST',
         body: JSON.stringify({chat_id: 95158993,
-          text: "*Kernel is now idle*\nNotebook: `" + IPython.notebook.notebook_path + "`\nExecution time: `" + result_time + "`",
+          text: "*Kernel is now idle*\nNotebook: `" + IPython.notebook.notebook_path + "`\nExecution time: `" + result_time + "`\n\n_Log output will be below._",
           file: file_text})
       });
 

@@ -21,7 +21,7 @@ def send_result(arguments, start_time, end_time, return_code, text):
     files = {}
     command = " ".join(arguments)
     execution_time = end_time - start_time
-    message = f"*{title}* \nCommand: `{command}` \nExecution time: `{execution_time}` \n\nLog output will be below."
+    message = f"*{title}* \nCommand: `{command}` \nExecution time: `{execution_time}` \n\n_Log output will be below._"
 
     data = {"chat_id": chat_id, "text": message}
 
