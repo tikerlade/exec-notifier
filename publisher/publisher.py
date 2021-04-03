@@ -28,7 +28,6 @@ def send_message():
     if request.files:
         bot.send_document(chat_id=chat_id, document=request.files["log.txt"])
     if "file" in data:
-        #
         with open("log.txt", "w") as fout:
             fout.write(data["file"])
         bot.send_document(chat_id=chat_id, document=open("log.txt", "rb"))
