@@ -16,6 +16,7 @@ logging.basicConfig(level=logging.INFO)
 def send_message():
     data = request.form
     logging.info(f"Data received {data}")
+    print(f"Data received {data}")
 
     chat_id = data["chat_id"]
     text_information = data["text"]
