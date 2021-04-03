@@ -9,7 +9,7 @@ TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
 app = Flask(__name__)
 bot = Bot(TELEGRAM_TOKEN)
 
-logging.basicConfig(encoding="utf-8", level=logging.INFO)
+logging.basicConfig(level=logging.INFO)
 
 
 @app.route("/send_message", methods=["POST"])
