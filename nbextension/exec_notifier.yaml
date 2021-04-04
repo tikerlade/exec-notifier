@@ -5,6 +5,7 @@ Description: >
 Link: README.md
 Main: exec_notifier.js
 Compatibility: 4.x, 5.x
+Icon: bot_report.png
 Parameters:
 - name: exec_notifier.telegram_id
   description: Telegram ID for exec-notifier bot. You can get it from bot by /start command.
