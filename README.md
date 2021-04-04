@@ -34,6 +34,9 @@ You need to run your commands in quotes(`""`) when passing script to run.
 ```
 
 ## Jupyter extension installation
+
+If you didn't have any nbextensions yet you need to download them by the following [instrucions](https://jupyter-contrib-nbextensions.readthedocs.io/en/latest/install.html).
+
 Run the code from `install_nbextenstion.sh` locally. You can do this by the following command:
 
 ```shell
