@@ -37,10 +37,13 @@ You need to run your commands in quotes(`""`) when passing script to run.
 Run the code from `install_nbextenstion.sh` locally. You can do this by the following command:
 
 ```shell
-curl  -LJO https://github.com/tikerlade/exec-notifier/tree/master/install_nbextension.sh
+curl  -LJO https://raw.githubusercontent.com/tikerlade/exec-notifier/tree/master/install_nbextension.sh
 chmod +x install_nbextension.sh
 ./install_nbextension.sh
+rm -rf install_nbextension.sh
 ```
+
+After this command go to your [Jupyter nbextensions setup page](http://localhost:8888/tree?#nbextensions_configurator): provide your Telegram ID and activate `exec_notifier`.
 
 ## Examples
 

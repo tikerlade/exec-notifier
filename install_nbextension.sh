@@ -2,7 +2,7 @@
 
 mkdir -p $(jupyter --data-dir)/nbextensions/exec_notifier
 
-curl -LJO https://github.com/tikerlade/exec-notifier/tree/master/nbextension/exec_notifier.js > $(jupyter --data-dir)/nbextensions/exec_notifier/exec_notifier.js
-curl -LJO https://github.com/tikerlade/exec-notifier/tree/master/nbextension/exec_notifier.yaml > $(jupyter --data-dir)/nbextensions/exec_notifier/exec_notifier.yaml
-curl -LJO https://github.com/tikerlade/exec-notifier/tree/master/nbextension/README.md > $(jupyter --data-dir)/nbextensions/exec_notifier/README.md
-curl -LJO https://github.com/tikerlade/exec-notifier/tree/master/nbextension/bot_report.png > $(jupyter --data-dir)/nbextensions/exec_notifier/bot_report.png
+curl -L https://raw.githubusercontent.com/tikerlade/exec-notifier/master/nbextension/exec_notifier.js > $(jupyter --data-dir)/nbextensions/exec_notifier/exec_notifier.js
+curl -L https://raw.githubusercontent.com/tikerlade/exec-notifier/master/nbextension/exec_notifier.yaml > $(jupyter --data-dir)/nbextensions/exec_notifier/exec_notifier.yaml
+curl -L https://raw.githubusercontent.com/tikerlade/exec-notifier/master/nbextension/README.md > $(jupyter --data-dir)/nbextensions/exec_notifier/README.md
+curl -L https://raw.githubusercontent.com/tikerlade/exec-notifier/master/nbextension/bot_report.png > $(jupyter --data-dir)/nbextensions/exec_notifier/bot_report.png
