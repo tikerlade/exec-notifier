@@ -1,3 +1,4 @@
+import json
 import logging
 import os
 
@@ -9,18 +10,27 @@ TELEGRAM_TOKEN = os.environ.get("TELEGRAM_TOKEN")
 app = Flask(__name__)
 bot = Bot(TELEGRAM_TOKEN)
 
-logging.basicConfig(encoding="utf-8", level=logging.INFO)
+logging.basicConfig(level=logging.INFO)
 
 
 @app.route("/send_message", methods=["POST"])
 def send_message():
-    data = request.form
+    if request.form:
+        data = request.form
+    if request.data:
+        data = json.loads(request.data.decode())
     logging.info(f"Data received {data}")
 
     chat_id = data["chat_id"]
     text_information = data["text"]
 
     bot.send_message(chat_id=chat_id, text=text_information, parse_mode="Markdown")
-    bot.send_document(chat_id=chat_id, document=request.files["log.txt"])
+
+    if request.files:
+        bot.send_document(chat_id=chat_id, document=request.files["log.txt"])
+    if "file" in data:
+        with open("log.txt", "w") as fout:
+            fout.write(data["file"])
+        bot.send_document(chat_id=chat_id, document=open("log.txt", "rb"))
 
     return "Success"

@@ -9,6 +9,14 @@
 
 This tool provides you ability to send yourself information about looong executed command when it is done. Information will be sent using Telegram Bot. Logs and error messages (if they'll occur) will be delivered too.
 
+**_CLI execution notification_**
+
+![Notification example](img/bot_report_cli.png)
+
+**_Notebook execution notification_**
+
+![Notification example](img/bot_report_nbextension.png)
+
 :warning: If your log will be too long (longer 1_000_000 signs we'll not send it).
 
 ## Prerequisites :bookmark_tabs:
@@ -16,13 +24,22 @@ This tool provides you ability to send yourself information about looong execute
 1. Python 3.4 or higher
 2. Telegram ID - get it from [@exec_notifier_bot](https://telegram.me/exec_notifier_bot) by using `/start` command.
 
-## Installation and running
+## CLI Installation and running
 You need to run your commands in quotes(`""`) when passing script to run.
 
 ```shell
 >>> pip install exec-notifier
 >>> exec_notifier config --telegram_id=YOUR_TELEGRAM_ID
 >>> exec_notifier notify "[your_command_here]"
+```
+
+## Jupyter extension installation
+Run the code from `install_nbextenstion.sh` locally. You can do this by the following command:
+
+```shell
+curl  -LJO https://github.com/tikerlade/exec-notifier/tree/master/install_nbextension.sh
+chmod +x install_nbextension.sh
+./install_nbextension.sh
 ```
 
 ## Examples
