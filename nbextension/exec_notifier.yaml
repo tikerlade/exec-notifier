@@ -2,12 +2,10 @@ Type: IPython Notebook Extension
 Name: exec_notifier
 Description: >
   Send notification to you through Telegram bot when your kernel is idle.
-Link: readme.md
-Icon: notification.png
+Link: README.md
 Main: exec_notifier.js
 Compatibility: 4.x, 5.x
 Parameters:
-- name: exec_notifier.sticky
-  description: Require interactions on notifications to dismiss them. (Chrome only)
-  input_type: checkbox
-  default: true
+- name: exec_notifier.telegram_id
+  description: Telegram ID for exec-notifier bot. You can get it from bot by /start command.
+  input_type: number

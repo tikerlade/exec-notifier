@@ -104,18 +104,46 @@ define(["require"], function (require) {
 
   var notify = function () {
     var elapsed_time = current_time() - start_time;
-    if (enabled && !first_start && !busy_kernel && elapsed_time >= min_time) {
+    var result_time = sec2time(elapsed_time);
+    var file_text = "";
 
-      var result_time = sec2time(elapsed_time);
-      var file_text = IPython.notebook.get_cell(last_cell).output_area.element[0].innerText.toString()
-      console.log(typeof file_text)
+    if (enabled && !busy_kernel && elapsed_time >= min_time) {
 
-      fetch('https://notifier-publisher.herokuapp.com/send_message', {
-        method: 'POST',
-        body: JSON.stringify({chat_id: 95158993,
-          text: "*Kernel is now idle*\nNotebook: `" + IPython.notebook.notebook_path + "`\nExecution time: `" + result_time + "`\n\n_Log output will be below._",
-          file: file_text})
-      });
+      var cell_output = IPython.notebook.get_cell(last_cell).output_area.element
+      for (var i = 0; i < cell_output.length; i++) {
+        if (cell_output[i].innerText.length > 0) {
+            file_text = file_text + cell_output[i].innerText.toString()
+          }
+      }
+
+      var config_data = IPython.notebook.config.data['exec_notifier'];
+      var cell_in_number = IPython.notebook.get_cell(last_cell).input_prompt_number;
+      var telegram_id = Number.parseInt(config_data['telegram_id'], 10);
+      var pretty_text = "*Kernel is now idle *\nNotebook: `(In[" + cell_in_number + "]) " +
+                        IPython.notebook.notebook_path + "`\nExecution time: `" + result_time + '`';
+
+      var request_body = {
+        chat_id: telegram_id,
+        text: pretty_text + '\n\n_No output_'
+      }
+
+      if (file_text.length > 0) {
+        var request_body = {
+          chat_id: telegram_id,
+          text: pretty_text + "\n\n_Log output will be below._",
+          file: file_text
+        }
+      }
+      console.log(telegram_id)
+
+
+      if (!isNaN(telegram_id)) {
+        fetch('https://notifier-publisher.herokuapp.com/send_message', {
+          method: 'POST',
+          mode: 'no-cors',
+          body: JSON.stringify(request_body)
+        });
+      }
 
       var n = new Notification(IPython.notebook.notebook_name, {body: "Kernel is now idle\n(ran for " + Math.round(elapsed_time) + ")"});
       n.onclick = function(event){ window.focus(); }
@@ -156,33 +184,29 @@ define(["require"], function (require) {
 
   var setup_notifier = function () {
     $([IPython.events]).on('kernel_starting.Kernel',function () {
-      first_start = true;  // reset first_start status when restarting the kernel
       cells_list = [];
     });
 
 
-    $([IPython.events]).on('execute.CodeCell',function (data) {
-      console.log(IPython.notebook.get_selected_index())
-      console.log(data)
+    $([IPython.events]).on('execute.CodeCell',function () {
+      busy_kernel = true;
       cells_list.push(IPython.notebook.get_selected_index())
     });
 
 
-    $([IPython.events]).on('kernel_busy.Kernel',function (data) {
-      // console.log(IPython.notebook.get_selected_index())
-      // console.log(data)
+    $([IPython.events]).on('kernel_busy.Kernel',function () {
       busy_kernel = true;
       start_time = current_time();  // reset the timer
     });
 
-    $([IPython.events]).on('kernel_idle.Kernel',function (data) {
-      // console.log(data)
+    $([IPython.events]).on('kernel_idle.Kernel',function () {
       busy_kernel = false;  // Used to make sure that kernel doesn't go busy again within the timeout set below.
-      last_cell = cells_list.shift();
-      setTimeout(notify, 500);
+
+      if (cells_list.length > 0) {
+        last_cell = cells_list.shift();
+        notify();
+      }
     });
-
-
   };
 
   var load_ipython_extension = function () {
